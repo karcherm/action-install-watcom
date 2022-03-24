@@ -29,6 +29,7 @@ runs:
           secondary_bindir=binw
           exeext=.exe
         fi
+        find "$GITHUB_WORKSPACE"/watcom -type f
         [ -f "$GITHUB_WORKSPACE"/watcom/lib286/dos/clibc.lib ] && [ -f "$GITHUB_WORKSPACE"/watcom/$primary_bindir/wcc${exeext} ] || {
             curl -L https://github.com/open-watcom/open-watcom-1.9/releases/download/ow1.9/open-watcom-c-linux-1.9 > '${{ runner.temp }}'/install
             actual_sha1=$(sha1sum '${{ runner.temp }}'/install | cut -c 1-40)
