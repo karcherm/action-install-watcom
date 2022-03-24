@@ -1,0 +1,56 @@
+name: 'Install OpenWatcom 1.9'
+description: 'Install OpenWatcom 1.9 development tools'
+runs:
+  using: 'composite'
+  steps:
+    - uses: actions/cache@v2
+      id: cache-ow19-target
+      with:
+        path:
+          - watcom/h/**/*
+          - watcom/lib/**/*
+      key: ow19target
+    - uses: actions/cache@v2
+      id: cache-ow19-host
+      with:
+        path: watcom/bin*/*
+        key: ow19host-${{ runner.os }}
+    - run: |
+        archive_sha1=12980168f967c5ed405fdcf179d6b89e6cdfd802
+        if [ ${{ runner.os }} == Linux ]
+        then
+          primary_bindir=binl
+          secondary_bindir=binw
+          exeext=
+        fi
+        if [ ${{ runner.os }} == Windows ]
+        then
+          primary_bindir=binnt
+          secondary_bindir=binw
+          exeext=.exe
+        fi
+        [ -f "$GITHUB_WORKSPACE"/watcom/lib286/dos/clibc.lib ] && [ -f "$GITHUB_WORKSPACE"/watcom/$primary_bindir/wcc${exeext} ] || {
+            curl https://github.com/open-watcom/open-watcom-1.9/releases/download/ow1.9/open-watcom-c-dos-1.9.exe > '${{ runner.temp }}'/install.exe
+            actual_sha1=$(sha1sum '${{ runner.temp }}'/install.exe | cut -c 1-40)
+            if ! [ $actual_sha1 == $archive_sha1 ]
+            then
+              echo open-watcom-c-dos-1.9.exe download has sha1 $actual_sha1, expected $archive_sha1
+              exit 1
+            fi
+            pushd '${{ runner.temp }}'
+            mkdir stage
+            cd stage
+            unzip ../install.exe
+            mv $primary_bindir $secondary_bindir h lib286 lib386 "$GITHUB_WORKSPACE"/watcom/
+            popd  
+        }
+        [ -d "$GITHUB_WORKSPACE"/watcom/binl ] && {
+            pushd "$GITHUB_WORKSPACE"/watcom/binl
+            ls -1 | grep -v '\.' | xargs chmod 755
+            popd
+        }
+        echo "$GITHUB_WORKSPACE"/$primary_bindir >> $GITHUB_PATH
+        [ -n "$secondary_bindir"] && echo "$GITHUB_WORKSPACE"/$secondary_bindir >> $GITHUB_PATH
+        echo INCLUDE="$GITHUB_WORKSPACE"/watcom/h >> $GITLAB_ENV
+        echo WATCOM="$GITHUB_WORKSPACE"/watcom >> $GITLAB_ENV
+      shell: 'bash'
