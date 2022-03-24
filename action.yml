@@ -52,6 +52,6 @@ runs:
         }
         echo "$GITHUB_WORKSPACE"/$primary_bindir >> $GITHUB_PATH
         [ -n "$secondary_bindir" ] && echo "$GITHUB_WORKSPACE"/$secondary_bindir >> $GITHUB_PATH
-        echo INCLUDE="$GITHUB_WORKSPACE"/watcom/h >> $GITLAB_ENV
-        echo WATCOM="$GITHUB_WORKSPACE"/watcom >> $GITLAB_ENV
+        echo INCLUDE="$GITHUB_WORKSPACE"/watcom/h >> $GITHUB_ENV
+        echo WATCOM="$GITHUB_WORKSPACE"/watcom >> $GITHUB_ENV
       shell: 'bash'
