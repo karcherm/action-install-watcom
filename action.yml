@@ -30,7 +30,7 @@ runs:
           exeext=.exe
         fi
         [ -f "$GITHUB_WORKSPACE"/watcom/lib286/dos/clibc.lib ] && [ -f "$GITHUB_WORKSPACE"/watcom/$primary_bindir/wcc${exeext} ] || {
-            curl https://github.com/open-watcom/open-watcom-1.9/releases/download/ow1.9/open-watcom-c-dos-1.9.exe > '${{ runner.temp }}'/install.exe
+            curl -L https://github.com/open-watcom/open-watcom-1.9/releases/download/ow1.9/open-watcom-c-dos-1.9.exe > '${{ runner.temp }}'/install.exe
             actual_sha1=$(sha1sum '${{ runner.temp }}'/install.exe | cut -c 1-40)
             if ! [ $actual_sha1 == $archive_sha1 ]
             then
