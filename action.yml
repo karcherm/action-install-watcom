@@ -30,11 +30,11 @@ runs:
           exeext=.exe
         fi
         [ -f "$GITHUB_WORKSPACE"/watcom/lib286/dos/clibc.lib ] && [ -f "$GITHUB_WORKSPACE"/watcom/$primary_bindir/wcc${exeext} ] || {
-            curl -L https://github.com/open-watcom/open-watcom-1.9/releases/download/ow1.9/open-watcom-c-dos-1.9.exe > '${{ runner.temp }}'/install.exe
-            actual_sha1=$(sha1sum '${{ runner.temp }}'/install.exe | cut -c 1-40)
+            curl -L https://github.com/open-watcom/open-watcom-1.9/releases/download/ow1.9/open-watcom-c-linux-1.9 > '${{ runner.temp }}'/install
+            actual_sha1=$(sha1sum '${{ runner.temp }}'/install | cut -c 1-40)
             if ! [ $actual_sha1 == $archive_sha1 ]
             then
-              echo open-watcom-c-dos-1.9.exe download has sha1 $actual_sha1, expected $archive_sha1
+              echo open-watcom-c-linux-1.9 download has sha1 $actual_sha1, expected $archive_sha1
               exit 1
             fi
             pushd '${{ runner.temp }}'
@@ -53,5 +53,5 @@ runs:
         echo "$GITHUB_WORKSPACE"/watcom/$primary_bindir >> $GITHUB_PATH
         [ -n "$secondary_bindir" ] && echo "$GITHUB_WORKSPACE"/watcom/$secondary_bindir >> $GITHUB_PATH
         echo INCLUDE="$GITHUB_WORKSPACE"/watcom/h >> $GITHUB_ENV
-        echo watcom="$GITHUB_WORKSPACE"/watcom >> $GITHUB_ENV
+        echo WATCOM="$GITHUB_WORKSPACE"/watcom >> $GITHUB_ENV
       shell: 'bash'
