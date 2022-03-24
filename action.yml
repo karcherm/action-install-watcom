@@ -50,8 +50,8 @@ runs:
             ls -1 | grep -v '\.' | xargs chmod 755
             popd
         }
-        echo "$GITHUB_WORKSPACE"/$primary_bindir >> $GITHUB_PATH
-        [ -n "$secondary_bindir" ] && echo "$GITHUB_WORKSPACE"/$secondary_bindir >> $GITHUB_PATH
+        echo "$GITHUB_WORKSPACE"/watcom/$primary_bindir >> $GITHUB_PATH
+        [ -n "$secondary_bindir" ] && echo "$GITHUB_WORKSPACE"/watcom/$secondary_bindir >> $GITHUB_PATH
         echo INCLUDE="$GITHUB_WORKSPACE"/watcom/h >> $GITHUB_ENV
         echo WATCOM="$GITHUB_WORKSPACE"/watcom >> $GITHUB_ENV
       shell: 'bash'
