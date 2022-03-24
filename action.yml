@@ -42,6 +42,7 @@ runs:
             cd stage
             unzip -q ../install
             mkdir -p "$GITHUB_WORKSPACE"/watcom
+            rm -rf "$GITHUB_WORKSPACE"/watcom/{$primary_bindir,$secondary_bindir,h,lib286,lib386}
             mv $primary_bindir $secondary_bindir h lib286 lib386 "$GITHUB_WORKSPACE"/watcom/
             popd  
         }
