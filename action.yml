@@ -16,7 +16,7 @@ runs:
         path: watcom/bin*/*
         key: ow19host-${{ runner.os }}
     - run: |
-        archive_sha1=12980168f967c5ed405fdcf179d6b89e6cdfd802
+        archive_sha1=98ee451bdda51736d279c5655101145f9ff364ac
         if [ ${{ runner.os }} == Linux ]
         then
           primary_bindir=binl
