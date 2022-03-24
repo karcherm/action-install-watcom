@@ -8,8 +8,8 @@ runs:
       with:
         path: |
           watcom/h/**/*
-          watcom/lib/**/*
-        key: ow19target
+          watcom/lib*/**/*
+        key: ow19target2
     - uses: actions/cache@v2
       id: cache-ow19-host
       with:
