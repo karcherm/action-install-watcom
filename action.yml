@@ -40,7 +40,8 @@ runs:
             pushd '${{ runner.temp }}'
             mkdir stage
             cd stage
-            unzip ../install.exe
+            unzip -q ../install.exe
+            mkdir -p "$GITHUB_WORKSPACE"/watcom
             mv $primary_bindir $secondary_bindir h lib286 lib386 "$GITHUB_WORKSPACE"/watcom/
             popd  
         }
